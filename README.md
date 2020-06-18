@@ -8,7 +8,6 @@ $ sudo apt-install yarn
 
 Do the following to get running:
 ```
-$ source venv/bin/activate
 $ yarn start
 $ yarn start-api
 ```
