@@ -3,10 +3,38 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core'
+import {red, blue, green} from '@material-ui/core/colors'
+import 'fontsource-roboto';
+
+
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: red[500]
+    },
+    secondary: {
+      main: blue[500]
+    },
+    action: {
+      main: green[500]
+
+    },
+    error: {
+      main: red[200]
+    }
+  }
+  
+})
+
+console.log(theme)
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <MuiThemeProvider theme = {theme}>
+        <App />  
+      </MuiThemeProvider>    
   </React.StrictMode>,
   document.getElementById('root')
 );

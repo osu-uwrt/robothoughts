@@ -1,33 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
+import Battery from './Battery'
+import Depth from './Depth'
 
-function App() {
-  const [currentTime, setCurrentTime] = useState(0);
-  useEffect(() => {
-    fetch('/time').then(res => res.json()).then(data => {
-      setCurrentTime(data.time);
-    });
-  }, []);
+const App = () => {
+
+  const [depths, setDepths] = useState(() => {
+    var map = new Map()
+    map['state depth'] = 500
+    map['controls depth'] = 200
+    console.log(map)
+    return map
+  });
+
   return (
+    
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+
+      <AppBar position="fixed">
+        <Toolbar color='primary'>
+        <IconButton edge="start" aria-label="menu">
+          <MenuIcon color='secondary'/>
+    </IconButton>
+    <Typography variant="h6">
+      {/* add link tag to ous uwrt */}
+      robo_thoughts
+    </Typography>
+ 
+        </Toolbar>
+      </AppBar>
+      <Toolbar />  
+
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <p>The current time is {currentTime}.</p>
+        <Battery charge={68}/>
+        <Battery charge={1}/>
+        <Battery charge={100}/>
+        <Battery charge={null}/>
+        <Depth 
+          map={depths}
+        />
       </header>
     </div>
-  );
+  )
 }
 
 export default App;
