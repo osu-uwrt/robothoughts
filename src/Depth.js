@@ -23,8 +23,8 @@ const Depth = ({stateDepth, controlsDepth}) => {
       >
         <Tab label="State Depth" />
         <Tab label="Controls Depth"/>
-        {/* ternary conditional operator to display depth from the selected source */}
       </Tabs>
+      {/* ternary conditional operator to display depth from the selected source */}
       {`${ depthType === 0 ? stateDepth : controlsDepth} meters `}
       </Card>
     </div>

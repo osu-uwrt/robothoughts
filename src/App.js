@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import { AppBar, Toolbar, IconButton, Typography, Paper } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Typography, Card } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import Battery from './Battery'
 import Depth from './Depth'
@@ -31,10 +31,12 @@ const App = () => {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <Battery charge={68}/>
-        <Battery charge={1}/>
-        <Battery charge={100}/>
-        <Battery charge={null}/>
+        <Card>
+          <Battery charge={68}/>
+          <Battery charge={1}/>
+          <Battery charge={100}/>
+          <Battery charge={null}/>
+        </Card>
         <Depth 
           stateDepth={stateDepth}
           controlsDepth={controlsDepth}
