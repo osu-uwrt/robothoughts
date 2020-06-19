@@ -8,8 +8,8 @@ import Imu from './Imu'
 
 const App = () => {
 
-  const [stateDepth, setStateDepth] = useState(500);
-  const [controlsDepth, setControlsDepth] = useState(200);
+  const [stateDepth, setStateDepth] = useState(500)
+  const [controlsDepth, setControlsDepth] = useState(200)
 
   return (    
     <div className="App">
