@@ -4,6 +4,7 @@ import { AppBar, Toolbar, IconButton, Typography, Card } from '@material-ui/core
 import MenuIcon from '@material-ui/icons/Menu';
 import Battery from './Battery'
 import Depth from './Depth'
+import Imu from './Imu'
 
 const App = () => {
 
@@ -40,7 +41,8 @@ const App = () => {
         <Depth 
           stateDepth={stateDepth}
           controlsDepth={controlsDepth}
-        />        
+        />
+        <Imu/>
       </header>
     </div>
   )
