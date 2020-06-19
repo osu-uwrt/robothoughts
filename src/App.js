@@ -1,22 +1,16 @@
 import React, { useState } from 'react';
 import './App.css';
-import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Typography, Paper } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import Battery from './Battery'
 import Depth from './Depth'
 
 const App = () => {
 
-  const [depths, setDepths] = useState(() => {
-    var map = new Map()
-    map['state depth'] = 500
-    map['controls depth'] = 200
-    console.log(map)
-    return map
-  });
+  const [stateDepth, setStateDepth] = useState(500);
+  const [controlsDepth, setControlsDepth] = useState(200);
 
-  return (
-    
+  return (    
     <div className="App">
       <header className="App-header">
 
@@ -42,8 +36,9 @@ const App = () => {
         <Battery charge={100}/>
         <Battery charge={null}/>
         <Depth 
-          map={depths}
-        />
+          stateDepth={stateDepth}
+          controlsDepth={controlsDepth}
+        />        
       </header>
     </div>
   )

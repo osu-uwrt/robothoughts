@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
-import { Tabs, Tab } from '@material-ui/core'
+import { Tabs, Tab, Card} from '@material-ui/core'
 
-
-
-// takes in a key value pair array map = [{'depth type', depth},...]
+// receive both 'state depth' and 'controls depth'
 const Depth = ({stateDepth, controlsDepth}) => {
+  // default to the first tab (which will be 'state depth')
   const [depthType, setDepthType] = useState(0);
 
+  // event handler to control which version of depth is displayed
   const handleDepthChange = (event, newValue) => {    
       setDepthType(newValue);
-      console.log(depthType)
     };
-  // set the battery icon to match the passed in charge number
 
   return (
     <div>
+      <Card className='test'>
       <Tabs
         value={depthType}
         indicatorColor="primary"
@@ -24,7 +23,10 @@ const Depth = ({stateDepth, controlsDepth}) => {
       >
         <Tab label="State Depth" />
         <Tab label="Controls Depth"/>
+        {/* ternary conditional operator to display depth from the selected source */}
       </Tabs>
+      {`${ depthType === 0 ? stateDepth : controlsDepth} meters `}
+      </Card>
     </div>
   )
 }
