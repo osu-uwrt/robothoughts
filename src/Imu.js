@@ -37,8 +37,9 @@ const Imu = ({}) => {
     
       useEffect(() => {
         var scene = new THREE.Scene();
+        scene.background = new THREE.Color( 0xffffff );
         var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 1, 1000 );
-        var renderer = new THREE.WebGLRenderer();
+        var renderer = new THREE.WebGLRenderer({ alpha: true });
         renderer.setSize( window.innerWidth, window.innerHeight );
         canvasRef.current.appendChild(renderer.domElement)
         var geometry = new THREE.BoxGeometry( 2, 1, 3 );
