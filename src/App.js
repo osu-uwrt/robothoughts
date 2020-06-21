@@ -42,7 +42,7 @@ const App = () => {
           stateDepth={stateDepth}
           controlsDepth={controlsDepth}
         />
-        <Imu/>
+        <Imu depth={stateDepth}/>
       </header>
     </div>
   )
