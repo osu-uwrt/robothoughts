@@ -51,17 +51,10 @@ const Imu = ({ depth }) => {
 
         var waterGeometry = new THREE.BoxGeometry( 10, 10, 10 )
         var waterMaterial = new THREE.MeshBasicMaterial( { color: 0x33bfff } )
-        var water = new THREE.Mesh( waterGeometry, waterMaterial )
-        
-        var plane = new THREE.PlaneGeometry( 5, 20, 32 );
-        var waterMaterial = new THREE.MeshBasicMaterial( {color: 0x33bfff});
         waterMaterial.opacity = 0.5
         waterMaterial.transparent = true
-        var waterSurface = new THREE.Mesh( plane, material )
-
-        var water = new THREE.plane()
-        console.log(water.normal)
-
+        var water = new THREE.Mesh( waterGeometry, waterMaterial )
+        
         water.position.y = -5
 
 
@@ -78,9 +71,9 @@ const Imu = ({ depth }) => {
             var animate = () => {
                 requestAnimationFrame( animate )
                 // model.rotation.x += 0.01
-                // model.rotation.y += 0.01
-                camera.position.y -= 0.01
-                model.position.y -= 0.01
+                model.rotation.y += 0.01
+                // camera.position.y -= 0.01
+                // model.position.y -= 0.01
                 renderer.setSize(container.clientWidth, container.clientWidth)
                 renderer.render( scene, camera )
             }

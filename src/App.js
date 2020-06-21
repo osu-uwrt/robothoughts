@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import { AppBar, Toolbar, IconButton, Typography, Card } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import Battery from './Battery'
+import Batteries from './Batteries'
 import Depth from './Depth'
 import Imu from './Imu'
 
@@ -10,6 +10,12 @@ const App = () => {
 
   const [stateDepth, setStateDepth] = useState(500)
   const [controlsDepth, setControlsDepth] = useState(200)
+  const [batteries, setBatteries] = useState([
+    {name: 'battery1', charge: 68},
+    {name: 'battery2', charge: 1},
+    {name: 'battery3', charge: 100},
+    {name: 'battery4', charge: null},
+  ])
 
   return (    
     <div className="App">
@@ -23,26 +29,16 @@ const App = () => {
     <Typography variant="h6">
       {/* add link tag to ous uwrt */}
       robo_thoughts
-    </Typography>
- 
+          </Typography>
         </Toolbar>
       </AppBar>
       <Toolbar />  
-
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <Card>
-          <Battery charge={68}/>
-          <Battery charge={1}/>
-          <Battery charge={100}/>
-          <Battery charge={null}/>
-        </Card>
-        <Depth 
-          stateDepth={stateDepth}
-          controlsDepth={controlsDepth}
-        />
-        <Imu depth={stateDepth}/>
+      <Batteries batteryArray={batteries} />
+      <Depth 
+        stateDepth={stateDepth}
+        controlsDepth={controlsDepth}
+      />
+      <Imu depth={stateDepth}/>
       </header>
     </div>
   )

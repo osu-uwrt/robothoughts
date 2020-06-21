@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Tabs, Tab, Card} from '@material-ui/core'
+import { Tabs, Tab, Card, Box } from '@material-ui/core'
 
 // receive both 'state depth' and 'controls depth'
 const Depth = ({stateDepth, controlsDepth}) => {
   // default to the first tab (which will be 'state depth')
-  const [depthType, setDepthType] = useState(0);
+  const [depthType, setDepthType] = useState(0)
 
   // event handler to control which version of depth is displayed
   const handleDepthChange = (event, newValue) => {    
@@ -13,6 +13,7 @@ const Depth = ({stateDepth, controlsDepth}) => {
 
   return (
     <div>
+      <Box maxWidth='600px'>
       <Card className='test'>
       <Tabs
         value={depthType}
@@ -27,6 +28,7 @@ const Depth = ({stateDepth, controlsDepth}) => {
       {/* ternary conditional operator to display depth from the selected source */}
       {`${ depthType === 0 ? stateDepth : controlsDepth} meters `}
       </Card>
+      </Box>
     </div>
   )
 }
