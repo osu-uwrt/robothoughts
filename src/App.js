@@ -5,6 +5,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Batteries from './Batteries'
 import Depth from './Depth'
 import Imu from './Imu'
+import VideoPlayer from './VideoPlayer'
 
 const App = () => {
 
@@ -39,6 +40,7 @@ const App = () => {
         controlsDepth={controlsDepth}
       />
       <Imu depth={stateDepth}/>
+      <VideoPlayer src='' />
       </header>
     </div>
   )

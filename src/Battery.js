@@ -15,7 +15,7 @@ const Battery = ({charge}) => {
   // set the battery icon to match the passed in charge number
   useEffect(()=> {
   //   var correct
-  //   if(charge != null) {
+  //   if(charge !== null) {
   //     // find the battery icon with that matches the charge
   //     var closest = [100, 80, 50, 20].reduce((a, b) => {
   //       return Math.abs(b - charge) < Math.abs(a - charge) ? b : a;

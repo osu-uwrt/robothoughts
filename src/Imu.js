@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useEffect, useRef } from 'react'
 import * as THREE from 'three';
-import { ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader'
+// import { ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader'
 import { Card, Box } from '@material-ui/core'
-import { sizing } from '@material-ui/system'
-import './test.css'
 
 
 const Imu = ({ depth }) => {
