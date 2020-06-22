@@ -28,8 +28,6 @@ const theme = createMuiTheme({
   
 })
 
-console.log(theme)
-
 ReactDOM.render(
   <React.StrictMode>
       <MuiThemeProvider theme = {theme}>

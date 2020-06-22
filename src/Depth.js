@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Tabs, Tab, Card, Box } from '@material-ui/core'
+import { Tabs, Tab, Card, Box, Typography, Paper } from '@material-ui/core'
+import { letterFrequency } from '@vx/mock-data'
+import Graph from './Graph'
 
 // receive both 'state depth' and 'controls depth'
 const Depth = ({stateDepth, controlsDepth}) => {
@@ -8,12 +10,12 @@ const Depth = ({stateDepth, controlsDepth}) => {
 
   // event handler to control which version of depth is displayed
   const handleDepthChange = (event, newValue) => {    
-      setDepthType(newValue);
-    };
+      setDepthType(newValue)
+    }
 
   return (
     <div>
-      <Box maxWidth='600px'>
+      <Box display='flex'>
       <Card className='test'>
       <Tabs
         value={depthType}
@@ -25,8 +27,12 @@ const Depth = ({stateDepth, controlsDepth}) => {
         <Tab label="State Depth" />
         <Tab label="Controls Depth"/>
       </Tabs>
+      <Typography variant='h3'>
+        Depth
+      </Typography>
       {/* ternary conditional operator to display depth from the selected source */}
       {`${ depthType === 0 ? stateDepth : controlsDepth} meters `}
+      <Graph width={200} height={100} />
       </Card>
       </Box>
     </div>

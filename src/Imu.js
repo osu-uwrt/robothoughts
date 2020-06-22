@@ -38,7 +38,6 @@ const Imu = ({ depth }) => {
         var scene = new THREE.Scene()
         scene.background = new THREE.Color( 0xffffff )
         var container = document.getElementsByClassName('Imu')[0]
-        console.log(container.clientHeight)
         var camera = new THREE.PerspectiveCamera( 100, 1, 1, 20 )
         var renderer = new THREE.WebGLRenderer({ alpha: true }) 
         renderer.setSize(container.clientWidth, container.clientWidth)

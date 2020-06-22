@@ -17,7 +17,7 @@ const usePlayer = ({ src, controls, autoplay }) => {
         overrideNative: true,
       },
     },
-  };
+  }
   const videoRef = useRef(null)
   const [player, setPlayer] = useState(null)
 
@@ -30,7 +30,6 @@ const usePlayer = ({ src, controls, autoplay }) => {
       liveui: true,
     })
 
-    console.log(vjsPlayer)
     setPlayer(vjsPlayer)
 
     return () => {
@@ -38,12 +37,12 @@ const usePlayer = ({ src, controls, autoplay }) => {
         player.dispose()
       }
     }
-  }, [])
+  }, [autoplay, controls, options, player, src])
   useEffect(() => {
     if (player !== null) {
       player.src({ src })
     }
-  }, [src])
+  }, [src, player])
 
   return videoRef
 }
