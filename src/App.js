@@ -11,6 +11,7 @@ const App = () => {
 
   const [stateDepth, setStateDepth] = useState(500)
   const [controlsDepth, setControlsDepth] = useState(200)
+  const [videoSrc, setVideoSrc] = useState('https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8')
   const [batteries, setBatteries] = useState([
     {name: 'battery1', charge: 68},
     {name: 'battery2', charge: 1},
@@ -40,7 +41,7 @@ const App = () => {
         controlsDepth={controlsDepth}
       />
       <Imu depth={stateDepth}/>
-      <VideoPlayer src='' />
+      <VideoPlayer src={videoSrc} />
       </header>
     </div>
   )
