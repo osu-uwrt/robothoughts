@@ -7,16 +7,25 @@ import Depth from './Depth'
 import Imu from './Imu'
 import VideoPlayer from './VideoPlayer'
 
-const App = () => {
+import {BatteryUnknown, BatteryFull, Battery80, Battery50, Battery20} from '@material-ui/icons';
+const chargeIcons = [
+  {key: 0, percent: 100, icon: <BatteryFull fontSize='large'color='secondary'/>},
+  {key: 1, percent: 80, icon: <Battery80 fontSize='large' color='secondary'/>},
+  {key: 2, percent: 50, icon: <Battery50  fontSize='large' color='secondary'/>},
+  {key: 3, percent: 20, icon: <Battery20 fontSize='large' color='error'/>},
+  {key: 4, percent: null, icon: <BatteryUnknown fontSize='large' color='error'/>}    
+]
 
+const App = () => {
+  
   const [stateDepth, setStateDepth] = useState(500)
   const [controlsDepth, setControlsDepth] = useState(200)
   const [videoSrc, setVideoSrc] = useState('https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8')
   const [batteries, setBatteries] = useState([
-    {name: 'battery1', charge: 68},
-    {name: 'battery2', charge: 1},
-    {name: 'battery3', charge: 100},
-    {name: 'battery4', charge: null},
+    {name: 'battery1', charge: 68, icon: chargeIcons[1].icon},
+    {name: 'battery2', charge: 1, icon: chargeIcons[3].icon},
+    {name: 'battery3', charge: 100, icon: chargeIcons[0].icon},
+    {name: 'battery4', charge: null, icon: chargeIcons[1].icon},
   ])
 
   return (    
@@ -47,4 +56,4 @@ const App = () => {
   )
 }
 
-export default App;
+export default App

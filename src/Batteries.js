@@ -19,6 +19,7 @@ const Batteries = ({batteryArray}) => {
           return <Battery 
             charge={i.charge} 
             showPercent={showPercent}
+            icon={i.icon}
             key={count++} 
           />
         })}

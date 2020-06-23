@@ -38,6 +38,7 @@ const usePlayer = ({ src, controls, autoplay }) => {
       }
     }
   }, [autoplay, controls, options, player, src])
+
   useEffect(() => {
     if (player !== null) {
       player.src({ src })
