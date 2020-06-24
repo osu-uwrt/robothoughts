@@ -12,6 +12,7 @@ import { max, extent, bisector } from 'd3-array';
 import { timeFormat } from 'd3-time-format';
 
 const stock = appleStock.slice(800);
+console.log(stock)
 export const background = '#3b6978';
 export const background2 = '#204051';
 export const accentColor = '#edffea';
@@ -21,7 +22,7 @@ const tooltipStyles = {
   background,
   border: '1px solid white',
   color: 'white',
-};
+}
 
 // util
 const formatDate = timeFormat("%b %d, '%y");
@@ -67,6 +68,7 @@ export default withTooltip(
       [yMax],
     );
 
+    const updateData = ()=> {}
     // tooltip handler
     const handleTooltip = useCallback(
       (event) => {
@@ -101,22 +103,22 @@ export default withTooltip(
           />
           <LinearGradient id="area-background-gradient" from={background} to={background2} />
           <LinearGradient id="area-gradient" from={accentColor} to={accentColor} toOpacity={0.1} />
-          <GridRows
+          {/* <GridRows
             scale={stockValueScale}
             width={xMax}
             strokeDasharray="3,3"
             stroke={accentColor}
             strokeOpacity={0.3}
             pointerEvents="none"
-          />
-          <GridColumns
+          /> */}
+          {/* <GridColumns
             scale={dateScale}
             height={yMax}
             strokeDasharray="3,3"
             stroke={accentColor}
             strokeOpacity={0.3}
             pointerEvents="none"
-          />
+          /> */}
           <AreaClosed
             data={stock}
             x={d => dateScale(getDate(d))}
@@ -191,6 +193,7 @@ export default withTooltip(
             </Tooltip>
           </div>
         )}
+        <button onClick={updateData()}></button>
       </div>
     );
   },
