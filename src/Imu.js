@@ -33,24 +33,31 @@ const Imu = ({ depth }) => {
     //     [scene, camera, avatar, renderer, q],
     //   )
 
-    
+      var camera = new THREE.PerspectiveCamera( 100, 1, 1, 20 )
+      var geometry = new THREE.BoxGeometry( 3, 1, 2 )
+     
+      var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } )
+      var model = new THREE.Mesh( geometry, material )
+
+      var waterGeometry = new THREE.BoxGeometry( 10, 10, 10 )
+      var waterMaterial = new THREE.MeshBasicMaterial( { color: 0x33bfff } )
+      waterMaterial.opacity = 0.5
+      waterMaterial.transparent = true
+      var water = new THREE.Mesh( waterGeometry, waterMaterial )
+
       useEffect(() => {
         var scene = new THREE.Scene()
         scene.background = new THREE.Color( 0xffffff )
         var container = document.getElementsByClassName('Imu')[0]
-        var camera = new THREE.PerspectiveCamera( 100, 1, 1, 20 )
+        // var camera = new THREE.PerspectiveCamera( 100, 1, 1, 20 )
         var renderer = new THREE.WebGLRenderer({ alpha: true }) 
         renderer.setSize(container.clientWidth, container.clientWidth)
         canvasRef.current.appendChild(renderer.domElement)
-        var geometry = new THREE.BoxGeometry( 3, 1, 2 )
-        var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } )
-        var model = new THREE.Mesh( geometry, material )
+        // var geometry = new THREE.BoxGeometry( 3, 1, 2 )
+        // var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } )
+        // var model = new THREE.Mesh( geometry, material )
 
-        var waterGeometry = new THREE.BoxGeometry( 10, 10, 10 )
-        var waterMaterial = new THREE.MeshBasicMaterial( { color: 0x33bfff } )
-        waterMaterial.opacity = 0.5
-        waterMaterial.transparent = true
-        var water = new THREE.Mesh( waterGeometry, waterMaterial )
+        
         
         water.position.y = -5
 
@@ -69,14 +76,21 @@ const Imu = ({ depth }) => {
                 requestAnimationFrame( animate )
                 // model.rotation.x += 0.01
                 model.rotation.y += 0.01
-                // camera.position.y -= 0.01
-                // model.position.y -= 0.01
+                camera.position.y -= 0.01
+                model.position.y -= 0.01
                 renderer.setSize(container.clientWidth, container.clientWidth)
                 renderer.render( scene, camera )
             }
-            animate()      
+            animate()    
         // })
-    })
+    }, [])
+
+    useEffect(()=> {
+      // console.log(water.position.y)
+      // camera.position.x = 2.5 - depth
+      // model.position.x = -depth
+      
+    }, [depth])
 
   return (
     <div>

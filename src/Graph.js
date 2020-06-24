@@ -192,7 +192,6 @@ export default withTooltip(
             </Tooltip>
           </div>
         )}
-        <button onClick={updateData()}></button>
       </div>
     );
   },

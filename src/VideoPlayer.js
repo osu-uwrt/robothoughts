@@ -45,7 +45,7 @@ const usePlayer = ({ src, controls, autoplay }) => {
     if (player !== null) {
       player.src({ src })
     }
-  }, [src, player])
+  }, [])
 
   return videoRef
 }

@@ -75,11 +75,28 @@ const App = () => {
     
   }
 
+  // const updateSampleData = () => {
+    
+  // }
+
   useEffect(() => {
     if (isActive) {
       setInterval(userAction, 1000) // call userAction every 1000 milliseconds
     } else {
-
+      console.warn(`
+      ----------------------------------------
+      Running in offline mode with sample data
+      ----------------------------------------
+      `)
+      var stateDepthCount = 0
+      var controlDepthCount = 20
+      var charges = [100, 50, 90, 46]
+      const interval = setInterval(() => {
+        setStateDepth(stateDepthCount+=0.1)
+        setControlsDepth(controlDepthCount-=0.1)
+      }, 1000);
+  
+      return () => clearInterval(interval);
     }
   }, [])
 
