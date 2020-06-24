@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './App.css'
-import { AppBar, Toolbar, IconButton, Typography, Card } from '@material-ui/core'
+import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import Batteries from './Batteries'
 import Depth from './Depth'
@@ -22,8 +22,8 @@ const App = () => {
   
   const [stateDepth, setStateDepth] = useState(500)
   const [controlsDepth, setControlsDepth] = useState(200)
-  const [videoSrc, setVideoSrc] = useState('https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8')
-  const [batteries, setBatteries] = useState([
+  const [videoSrc] = useState('https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8')
+  const [batteries] = useState([
     {name: 'battery1', charge: 68, icon: chargeIcons[1].icon},
     {name: 'battery2', charge: 1, icon: chargeIcons[3].icon},
     {name: 'battery3', charge: 100, icon: chargeIcons[0].icon},
@@ -93,7 +93,7 @@ const App = () => {
           <MenuIcon color='secondary'/>
     </IconButton>
     <Typography variant="h6">
-      {/* add link tag to ous uwrt */}
+      {/* add link tag to osu uwrt */}
       robo_thoughts
           </Typography>
         </Toolbar>

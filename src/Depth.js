@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Tabs, Tab, Card, Box, Typography, Paper } from '@material-ui/core'
-import { letterFrequency } from '@vx/mock-data'
+import { Tabs, Tab, Card, Box, Typography } from '@material-ui/core'
+// import { letterFrequency } from '@vx/mock-data'
 import Graph from './Graph'
 
 // receive both 'state depth' and 'controls depth'

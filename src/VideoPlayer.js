@@ -22,13 +22,15 @@ const usePlayer = ({ src, controls, autoplay }) => {
   const [player, setPlayer] = useState(null)
 
   useEffect(() => {
-    const vjsPlayer = videojs(videoRef.current, {
+    const vjsPlayer = videojs(videoRef.current, 
+      {
       ...options,
       controls,
       autoplay,
       sources: [src],
       liveui: true,
-    })
+    },
+    )
 
     setPlayer(vjsPlayer)
 

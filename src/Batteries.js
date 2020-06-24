@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Box, Checkbox, Switch, FormControlLabel } from '@material-ui/core'
+import { Card, Box, Switch, FormControlLabel } from '@material-ui/core'
 import Battery from './Battery'
 
 // receive a map[String, number] where key: 'battery name', value: 'charge'
