@@ -31,7 +31,7 @@ const Depth = ({stateDepth, controlsDepth}) => {
         Depth
       </Typography>
       {/* ternary conditional operator to display depth from the selected source */}
-      {`${ depthType === 0 ? stateDepth : controlsDepth} meters `}
+      {`${ depthType === 0 ? stateDepth.toFixed(2) : controlsDepth.toFixed(2)} meters `}
       <Graph width={200} height={100} />
       </Card>
       </Box>

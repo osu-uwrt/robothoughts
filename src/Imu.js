@@ -33,19 +33,19 @@ const Imu = ({ depth }) => {
     //     [scene, camera, avatar, renderer, q],
     //   )
 
-      var camera = new THREE.PerspectiveCamera( 100, 1, 1, 20 )
-      var geometry = new THREE.BoxGeometry( 3, 1, 2 )
-     
-      var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } )
-      var model = new THREE.Mesh( geometry, material )
-
-      var waterGeometry = new THREE.BoxGeometry( 10, 10, 10 )
-      var waterMaterial = new THREE.MeshBasicMaterial( { color: 0x33bfff } )
-      waterMaterial.opacity = 0.5
-      waterMaterial.transparent = true
-      var water = new THREE.Mesh( waterGeometry, waterMaterial )
 
       useEffect(() => {
+        var camera = new THREE.PerspectiveCamera( 100, 1, 1, 20 )
+        var geometry = new THREE.BoxGeometry( 3, 1, 2 )
+     
+        var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } )
+        var model = new THREE.Mesh( geometry, material )
+
+        var waterGeometry = new THREE.BoxGeometry( 10, 10, 10 )
+        var waterMaterial = new THREE.MeshBasicMaterial( { color: 0x33bfff } )
+        waterMaterial.opacity = 0.5
+        waterMaterial.transparent = true
+        var water = new THREE.Mesh( waterGeometry, waterMaterial )
         var scene = new THREE.Scene()
         scene.background = new THREE.Color( 0xffffff )
         var container = document.getElementsByClassName('Imu')[0]
@@ -57,10 +57,7 @@ const Imu = ({ depth }) => {
         // var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } )
         // var model = new THREE.Mesh( geometry, material )
 
-        
-        
         water.position.y = -5
-
 
         // var loader = new ColladaLoader();
         // loader.load('../public/puddles.dae', (collada) => {
@@ -70,16 +67,16 @@ const Imu = ({ depth }) => {
             camera.position.y = 2.5
             camera.position.x = 2.5
 
-            camera.lookAt (0, 0, 0) 
+            camera.lookAt(0, 0, 0) 
 
             var animate = () => {
-                requestAnimationFrame( animate )
-                // model.rotation.x += 0.01
-                model.rotation.y += 0.01
-                camera.position.y -= 0.01
-                model.position.y -= 0.01
-                renderer.setSize(container.clientWidth, container.clientWidth)
-                renderer.render( scene, camera )
+              requestAnimationFrame( animate )
+              // model.rotation.x += 0.01
+              model.rotation.y += 0.01
+              camera.position.y -= 0.005
+              model.position.y -= 0.005
+              renderer.setSize(container.clientWidth, container.clientWidth)
+              renderer.render( scene, camera )
             }
             animate()    
         // })

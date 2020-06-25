@@ -88,17 +88,37 @@ const App = () => {
       Running in offline mode with sample data
       ----------------------------------------
       `)
-      var stateDepthCount = 0
-      var controlDepthCount = 20
-      var charges = [100, 50, 90, 46]
-      const interval = setInterval(() => {
-        setStateDepth(stateDepthCount+=0.1)
-        setControlsDepth(controlDepthCount-=0.1)
-      }, 1000);
+      // var stateDepthCount = 0
+      // var controlDepthCount = 20
+      // var charges = [100, 50, 90, 46]
+      // const interval = setInterval(() => {
+      //   setStateDepth(stateDepthCount+=0.1)
+      //   setControlsDepth(controlDepthCount-=0.1)
+      // }, 1000);
   
-      return () => clearInterval(interval);
+      // return () => clearInterval(interval);
     }
   }, [])
+
+  useEffect(()=> {
+    batteries.map(battery => {
+      battery.icon = getBatteryIcon(battery.charge)
+    })
+  }, [batteries])
+
+  const getBatteryIcon = (charge) => {
+    if(charge !== null) {
+          // find the battery icon that matches closest to the current charge
+          const closest = [100, 80, 50, 20].reduce((a, b) => {
+            return Math.abs(b - charge) < Math.abs(a - charge) ? b : a;
+          })
+    
+          const key = chargeIcons.findIndex(  elem => elem.percent === closest )
+          setIcon( chargeIcons[key].icon )
+        } else {
+          console.info( 'charge - ', charge)
+        }
+  }
 
   return (    
     <div className="App">
