@@ -27,7 +27,7 @@ const App = () => {
     {name: 'battery1', charge: 68, icon: chargeIcons[1].icon},
     {name: 'battery2', charge: 1, icon: chargeIcons[3].icon},
     {name: 'battery3', charge: 100, icon: chargeIcons[0].icon},
-    {name: 'battery4', charge: null, icon: chargeIcons[1].icon},
+    {name: 'battery4', charge: null, icon: chargeIcons[4].icon},
   ])
 
   // retrieve information from robo_thoughts backend
@@ -114,9 +114,9 @@ const App = () => {
           })
     
           const key = chargeIcons.findIndex(  elem => elem.percent === closest )
-          setIcon( chargeIcons[key].icon )
+          return chargeIcons[key].icon
         } else {
-          console.info( 'charge - ', charge)
+          return chargeIcons[4].icon
         }
   }
 
