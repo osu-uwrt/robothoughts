@@ -16,7 +16,7 @@ const chargeIcons = [
   {key: 3, percent: 20, icon: <Battery20 fontSize='large' color='error' />},
   {key: 4, percent: null, icon: <BatteryUnknown fontSize='large' color='error' />}    
 ]
-const url = 'http://0.0.0.0:5000'
+const url = 'http://127.0.0.1:5000/'
 const isActive = true
 
 const App = () => {
@@ -33,32 +33,33 @@ const App = () => {
 
   // retrieve information from robo_thoughts backend
   const userAction = () => {
-    // json object required by robo_thoughts backend
-    let requestBody = {
+    var data = {
       'request': [
         {'data': 'position'},
         {'data': 'orientation'},
         {'data': 'depth'}
       ]
     }
+    console.log(JSON.stringify(data))
     // send a post request to robo_thoughts backend containing the above json object
-    fetch(url, {
+    var response = fetch(url, {
       method: 'POST',
+      mode: 'cors',
+      credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      body: requestBody
-    }).then(response => {
-      //extract JSON from the post response
-      console.log(response)
-    })
-    
-  }
+      body: JSON.stringify(data)
+    }).then(response => response.json())
+      .then(json => {
+        console.log(json.data[2])
+        setDepth(json.data[2].depth)
+      })
 
   // const updateSampleData = () => {
     
-  // }
+  }
 
   useEffect(() => {
     if (isActive) {
@@ -123,7 +124,7 @@ const App = () => {
         controlsDepth={controlsDepth}
       />
       <Imu depth={depth}/>
-      <VideoPlayer src={videoSrc} />
+      {/* <VideoPlayer src={videoSrc} /> */}
       </header>
     </div>
   )
