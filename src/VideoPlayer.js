@@ -4,48 +4,45 @@ import videojs from 'video.js'
 import { Card, Box } from '@material-ui/core'
 import 'video.js/dist/video-js.css'
 
-// eslint-disable-next-line import/prefer-default-export
 const usePlayer = ({ src, controls, autoplay }) => {
   const options = {
-    fill: true,
-    fluid: true,
-    preload: 'auto',
-    html5: {
-      hls: {
-        enableLowInitialPlaylist: true,
-        smoothQualityChange: true,
-        overrideNative: true,
-      },
-    },
+    // fill: true,
+    // fluid: true,
+    // preload: 'auto',
+    // html5: {
+    //   hls: {
+    //     enableLowInitialPlaylist: true,
+    //     smoothQualityChange: true,
+    //     overrideNative: true,
+    //   },
+    // },
   }
   const videoRef = useRef(null)
-  const [player, setPlayer] = useState(null)
 
   useEffect(() => {
     const vjsPlayer = videojs(videoRef.current, 
       {
       ...options,
-      controls,
-      autoplay,
+      controls: true,
+      autoplay: true,
       sources: [src],
       liveui: true,
-    },
-    )
+    }, [])
 
-    setPlayer(vjsPlayer)
+    // setPlayer(vjsPlayer)
 
-    return () => {
-      if (player !== null) {
-        player.dispose()
-      }
-    }
-  }, [autoplay, controls, options, player, src])
+    // return () => {
+    //   if (player !== null) {
+    //     player.dispose()
+    //   }
+    // }
+  })
 
-  useEffect(() => {
-    if (player !== null) {
-      player.src({ src })
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (player !== null) {
+  //     // player.src({ src })
+  //   }
+  // }, [])
 
   return videoRef
 }
@@ -70,11 +67,6 @@ VideoPlayer.propTypes = {
   src: PropTypes.string.isRequired,
   controls: PropTypes.bool,
   autoplay: PropTypes.bool,
-}
-
-VideoPlayer.defaultProps = {
-  controls: true,
-  autoplay: false,
 }
 
 export default VideoPlayer

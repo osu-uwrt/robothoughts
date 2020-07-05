@@ -17,6 +17,7 @@
     "@vx/shape": "^0.0.197",
     "@vx/tooltip": "^0.0.197",
     "fontsource-roboto": "^2.1.4",
+    "node-fetch": "^2.6.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",

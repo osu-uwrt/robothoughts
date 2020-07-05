@@ -7,6 +7,7 @@ import Depth from './Depth'
 import Imu from './Imu'
 import VideoPlayer from './VideoPlayer'
 import {BatteryUnknown, BatteryFull, Battery80, Battery50, Battery20} from '@material-ui/icons'
+import fetch from 'node-fetch'
 
 const chargeIcons = [
   {key: 0, percent: 100, icon: <BatteryFull fontSize='large'color='secondary' />},
@@ -15,12 +16,12 @@ const chargeIcons = [
   {key: 3, percent: 20, icon: <Battery20 fontSize='large' color='error' />},
   {key: 4, percent: null, icon: <BatteryUnknown fontSize='large' color='error' />}    
 ]
-const url = 'exampleurl'
-const isActive = false
+const url = 'http://0.0.0.0:5000'
+const isActive = true
 
 const App = () => {
   
-  const [stateDepth, setStateDepth] = useState(500)
+  const [depth, setDepth] = useState(500)
   const [controlsDepth, setControlsDepth] = useState(200)
   const [videoSrc] = useState('https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8')
   const [batteries] = useState([
@@ -35,27 +36,9 @@ const App = () => {
     // json object required by robo_thoughts backend
     let requestBody = {
       'request': [
-        {
-          'data': 'Controls_Depth'
-        },
-        {
-          'data': 'State_Depth'
-        },
-        {
-          'data': 'Bboxes'
-        },
-        {
-          'data': 'Dvl'
-        },
-        {
-          'data': 'Imu'
-        },
-        {
-          'data': 'Object'
-        },
-        {
-          'data': 'Object'
-        }
+        {'data': 'position'},
+        {'data': 'orientation'},
+        {'data': 'depth'}
       ]
     }
     // send a post request to robo_thoughts backend containing the above json object
@@ -68,9 +51,7 @@ const App = () => {
       body: requestBody
     }).then(response => {
       //extract JSON from the post response
-      response = response.json().data
-      setControlsDepth(response.find(element => element.hasOwnProperty('Controls_Depth')))
-      setStateDepth(response.find(element => element.hasOwnProperty('State_Depth'))) 
+      console.log(response)
     })
     
   }
@@ -81,7 +62,7 @@ const App = () => {
 
   useEffect(() => {
     if (isActive) {
-      setInterval(userAction, 1000) // call userAction every 1000 milliseconds
+      userAction()      
     } else {
       console.warn(`
       ----------------------------------------
@@ -102,7 +83,7 @@ const App = () => {
 
   useEffect(()=> {
     batteries.map(battery => {
-      battery.icon = getBatteryIcon(battery.charge)
+      return battery.icon = getBatteryIcon(battery.charge)
     })
   }, [batteries])
 
@@ -138,10 +119,10 @@ const App = () => {
       <Toolbar />  
       <Batteries batteryArray={batteries} />
       <Depth 
-        stateDepth={stateDepth}
+        stateDepth={depth}
         controlsDepth={controlsDepth}
       />
-      <Imu depth={stateDepth}/>
+      <Imu depth={depth}/>
       <VideoPlayer src={videoSrc} />
       </header>
     </div>
