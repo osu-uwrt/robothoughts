@@ -53,8 +53,8 @@ const App = () => {
       body: JSON.stringify(data)
     }).then(response => response.json())
       .then(json => {
-        console.log(json.data[2])
-        setDepth(json.data[2].depth)
+        // set state
+        setDepth(json.data[2].depth * -1)
       })
 
   // const updateSampleData = () => {
@@ -120,10 +120,9 @@ const App = () => {
       <Toolbar />  
       <Batteries batteryArray={batteries} />
       <Depth 
-        stateDepth={depth}
-        controlsDepth={controlsDepth}
+        depth={depth}        
       />
-      <Imu depth={depth}/>
+      {/* <Imu depth={depth}/> */}
       {/* <VideoPlayer src={videoSrc} /> */}
       </header>
     </div>
