@@ -21,8 +21,8 @@ const isActive = true
 
 const App = () => {
   
-  const [depth, setDepth] = useState(500)
-  const [controlsDepth, setControlsDepth] = useState(200)
+  const [depth, setDepth] = useState()
+  const [orientation, setOrientation] = useState()  
   const [videoSrc] = useState('https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8')
   const [batteries] = useState([
     {name: 'battery1', charge: 68, icon: chargeIcons[1].icon},
@@ -40,7 +40,7 @@ const App = () => {
         {'data': 'depth'}
       ]
     }
-    console.log(JSON.stringify(data))
+    
     // send a post request to robo_thoughts backend containing the above json object
     var response = fetch(url, {
       method: 'POST',
@@ -54,7 +54,10 @@ const App = () => {
     }).then(response => response.json())
       .then(json => {
         // set state
+        console.log(json)
+        setOrientation(json.data[1])
         setDepth(json.data[2].depth * -1)
+        
       })
 
   // const updateSampleData = () => {
@@ -63,7 +66,10 @@ const App = () => {
 
   useEffect(() => {
     if (isActive) {
-      userAction()      
+      const interval = setInterval(() => {
+        userAction()
+      }, 500)
+      return () => clearInterval(interval)      
     } else {
       console.warn(`
       ----------------------------------------
@@ -123,8 +129,8 @@ const App = () => {
         depth={depth}        
       />
       {/* <Imu depth={depth}/> */}
-      {/* <VideoPlayer src={videoSrc} /> */}
-      </header>
+      <VideoPlayer src='http://0.0.0.0:8080/stream?topic=/puddles/stereo/left/image_rect_color&type=mjpeg&quality=25' />
+      </header>          
     </div>
   )
 }

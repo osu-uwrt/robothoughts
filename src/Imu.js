@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three';
 // import { ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader'
 import { Card, Box } from '@material-ui/core'
@@ -8,12 +8,25 @@ const Imu = ({ depth }) => {
 
     // const [geometry] = useState(new THREE.BoxGeometry(1, 1, 1))    
     // const [material] = useState(new THREE.MeshBasicMaterial({ color: 0x00ff00 }))
-    // const [scene] = useState(new THREE.Scene())    
-    // const [camera] = useState(new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000))
-    // const [renderer] = useState(new THREE.WebGLRenderer())
+    const [scene] = useState(new THREE.Scene({
+      background: new THREE.Color( 0xffffff )
+    }))    
+    const [camera] = useState(new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 50))
+    const [renderer] = useState(new THREE.WebGLRenderer( { alpha: true } ))
     // const [q] = useState(new THREE.Quaternion(0.847, -0.002, -0.504, 0.168))
     // const [loader, setLoader] = useState()
-    // const [avatar, setAvatar] = useState()
+    const [model] = useState(
+      new THREE.Mesh( new THREE.BoxGeometry( 3, 1, 2 ), 
+      new THREE.MeshBasicMaterial( { color: 0x00ff00 } )
+    ))
+    const [water] = useState(new THREE.Mesh(
+      new THREE.BoxGeometry( 5, 5, 5 ),
+      new THREE.MeshBasicMaterial({ 
+        color: 0x33bfff,
+        transparent: true,
+        opacity: 0.5
+      })
+    ))
 
     const canvasRef = useRef()
 
@@ -35,59 +48,57 @@ const Imu = ({ depth }) => {
 
 
       useEffect(() => {
-        var camera = new THREE.PerspectiveCamera( 100, 1, 1, 20 )
-        var geometry = new THREE.BoxGeometry( 3, 1, 2 )
-     
-        var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } )
-        var model = new THREE.Mesh( geometry, material )
-
-        var waterGeometry = new THREE.BoxGeometry( 10, 10, 10 )
-        var waterMaterial = new THREE.MeshBasicMaterial( { color: 0x33bfff } )
-        waterMaterial.opacity = 0.5
-        waterMaterial.transparent = true
-        var water = new THREE.Mesh( waterGeometry, waterMaterial )
-        var scene = new THREE.Scene()
-        scene.background = new THREE.Color( 0xffffff )
-        var container = document.getElementsByClassName('Imu')[0]
-        // var camera = new THREE.PerspectiveCamera( 100, 1, 1, 20 )
-        var renderer = new THREE.WebGLRenderer({ alpha: true }) 
-        renderer.setSize(container.clientWidth, container.clientWidth)
-        canvasRef.current.appendChild(renderer.domElement)
-        // var geometry = new THREE.BoxGeometry( 3, 1, 2 )
-        // var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } )
-        // var model = new THREE.Mesh( geometry, material )
-
-        water.position.y = -5
+        // append THREE.js renderer to the ref within the document                          
 
         // var loader = new ColladaLoader();
         // loader.load('../public/puddles.dae', (collada) => {
         //  model = collada.scene
-            scene.add(model, water)
-            camera.position.z = 2.5 
-            camera.position.y = 2.5
-            camera.position.x = 2.5
 
-            camera.lookAt(0, 0, 0) 
+        // create the THREE.js camera
+        // let container = document.getElementsByClassName('Imu')[0]
+          // let width = container.clientWidth
+        // let height = container.clientHeight
+        // camera.top = height / 2
+        // camera.bottom = height / -2
+        // camera.left = width / -2
+        // camera.right = width / 2
 
-            var animate = () => {
-              requestAnimationFrame( animate )
-              // model.rotation.x += 0.01
-              model.rotation.y += 0.01
-              camera.position.y -= 0.005
-              model.position.y -= 0.005
-              renderer.setSize(container.clientWidth, container.clientWidth)
-              renderer.render( scene, camera )
-            }
-            animate()    
+        // add objects to the scene and position them
+                 
+        // camera.position.z = 2.5        
+                          
         // })
     }, [])
 
-    useEffect(()=> {
-      // console.log(water.position.y)
-      // camera.position.x = 2.5 - depth
-      // model.position.x = -depth
+    useEffect(()=> { 
+      canvasRef.current.appendChild(renderer.domElement)      
+      scene.add(model, water)  
+      water.position.y = -2.5   
+      camera.position.x = 2.5
+
+      console.log(depth)
       
-    }, [depth])
+      let frameId
+
+      var animate = () => {        
+        camera.position.y = depth  + 2.5        
+        model.position.y = depth
+        // model.setRotationFromQuaternion()        
+        camera.lookAt(model.position.x, model.position.y, model.position.z)
+        
+        let container = document.getElementsByClassName('Imu')[0]
+        renderer.setSize(container.clientWidth, container.clientWidth)
+        renderer.render( scene, camera )        
+      }
+      frameId = requestAnimationFrame(animate)
+      
+      return () => {
+        cancelAnimationFrame(frameId)
+        frameId = null
+        canvasRef.current.removeChild(renderer.domElement)
+        scene.remove(model, water)
+      }
+    }, [])
 
   return (
     <div>
