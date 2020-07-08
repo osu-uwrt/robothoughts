@@ -21,7 +21,9 @@ const isActive = true
 
 const App = () => {
   
-  const [depth, setDepth] = useState()
+  // const [videoUrl, setVideoUrl] = useState()
+  const [videoUrl] = useState('http://0.0.0.0:8080/stream?topic=/puddles/stereo/left/image_rect_color&type=mjpeg&quality=25') 
+  const [depth, setDepth] = useState(0)
   const [orientation, setOrientation] = useState()  
   const [videoSrc] = useState('https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8')
   const [batteries] = useState([
@@ -66,6 +68,9 @@ const App = () => {
 
   useEffect(() => {
     if (isActive) {
+      fetch(`${url}/video_feed`).then(response => response.json()).then(json => {console.log(json)})
+      console.log(videoUrl)
+      
       const interval = setInterval(() => {
         userAction()
       }, 500)
@@ -76,15 +81,6 @@ const App = () => {
       Running in offline mode with sample data
       ----------------------------------------
       `)
-      // var stateDepthCount = 0
-      // var controlDepthCount = 20
-      // var charges = [100, 50, 90, 46]
-      // const interval = setInterval(() => {
-      //   setStateDepth(stateDepthCount+=0.1)
-      //   setControlsDepth(controlDepthCount-=0.1)
-      // }, 1000);
-  
-      // return () => clearInterval(interval);
     }
   }, [])
 
@@ -129,7 +125,7 @@ const App = () => {
         depth={depth}        
       />
       {/* <Imu depth={depth}/> */}
-      <VideoPlayer src='http://0.0.0.0:8080/stream?topic=/puddles/stereo/left/image_rect_color&type=mjpeg&quality=25' />
+      <VideoPlayer src={videoUrl}/>
       </header>          
     </div>
   )
