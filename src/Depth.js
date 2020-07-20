@@ -14,7 +14,7 @@ const Depth = ({depth}) => {
         Depth
       </Typography>
       {`${depth.toFixed(2)} meters `}
-      <Graph width={200} height={100} />
+      {/* <Graph width={200} height={100} /> */}
       </Card>
       </Box>
     </div>

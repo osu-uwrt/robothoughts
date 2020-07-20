@@ -56,9 +56,9 @@ const App = () => {
     }).then(response => response.json())
       .then(json => {
         // set state
-        console.log(json)
+        // console.log(json)
         setOrientation(json.data[1])
-        setDepth(json.data[2].depth * -1)
+        setDepth(Math.abs(json.data[2].depth))
         
       })
 
