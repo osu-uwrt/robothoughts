@@ -33,7 +33,7 @@ const Battery = ({charge, showPercent, icon}) => {
         {
           /* ternary conditional operator to control if percent is 
           shown and display special text when charge is null */
-           showPercent ? `${charge !== null ? charge : '—'}%` : ''
+           showPercent ? `${charge !== null ? Math.ceil(charge) : '—'}%` : ''
         }
       </Typography>
       </Box>    

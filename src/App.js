@@ -27,9 +27,9 @@ const App = () => {
   const [orientation, setOrientation] = useState()  
   const [videoSrc] = useState('https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8')
   const [batteries] = useState([
-    {name: 'battery1', charge: 68, icon: chargeIcons[1].icon},
-    {name: 'battery2', charge: 1, icon: chargeIcons[3].icon},
-    {name: 'battery3', charge: 100, icon: chargeIcons[0].icon},
+    {name: 'battery1', charge: null, icon: chargeIcons[4].icon},
+    {name: 'battery2', charge: null, icon: chargeIcons[4].icon},
+    {name: 'battery3', charge: null, icon: chargeIcons[4].icon},
     {name: 'battery4', charge: null, icon: chargeIcons[4].icon},
   ])
 
@@ -56,9 +56,14 @@ const App = () => {
     }).then(response => response.json())
       .then(json => {
         // set state
-        // console.log(json)
+        console.log(json)
         setOrientation(json.data[1])
-        setDepth(Math.abs(json.data[2].depth))
+        setDepth(json.data[2].depth * -1 + Math.random())
+        batteries.map(i => {
+          let rand = Math.random() * 100
+          i.charge = rand
+          i.icon = getBatteryIcon(i.charge)
+        })
         
       })
 
@@ -83,12 +88,6 @@ const App = () => {
       `)
     }
   }, [])
-
-  useEffect(()=> {
-    batteries.map(battery => {
-      return battery.icon = getBatteryIcon(battery.charge)
-    })
-  }, [batteries])
 
   const getBatteryIcon = (charge) => {
     if(charge !== null) {
@@ -124,7 +123,7 @@ const App = () => {
       <Depth 
         depth={depth}        
       />
-      {/* <Imu depth={depth}/> */}
+      <Imu depth={depth} orientation={orientation}/>
       <VideoPlayer src={videoUrl}/>
       </header>          
     </div>
