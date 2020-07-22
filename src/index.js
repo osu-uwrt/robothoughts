@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core'
+import { MuiThemeProvider, createMuiTheme, responsiveFontSizes } from '@material-ui/core'
 import {red, blue, green} from '@material-ui/core/colors'
 import 'fontsource-roboto';
 
-const prefersDarkMode = true
+const prefersDarkMode = false
 
 const theme = createMuiTheme({
   palette: {

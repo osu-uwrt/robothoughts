@@ -20,7 +20,9 @@ import VideoPlayer from './VideoPlayer'
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    maxWidth: '800px',
+    margin: 'auto',
   },
   // paper: {
   //   padding: theme.spacing(2),
@@ -28,12 +30,18 @@ const useStyles = makeStyles((theme) => ({
   //   color: theme.palette.text.secondary,
   // },
   videoPlayer: {
-    height: '200px',
-    backgroundColor: 'red',
+    height: '400px',
+    width: '100%',
+    display: 'flex',
+    backgroundColor: 'purple',
   },
-  batteries: {
-    alignSelf: 'flex-end'
-  },
+  robotHeader: {
+    display: 'flex',
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',    
+    alignItems: 'center'
+  }
 }))
 
 const chargeIcons = [
@@ -58,7 +66,7 @@ const App = () => {
   ])
   const [team] = useState({
     name: 'OSU Underwater Robotics Team',
-    avatarSrc: '',
+    avatarSrc:'/logo.jpg',
     robot: {
       name: 'Puddles', 
       info: 'Puddles is the team\'s newest autonomous underwater vehicle. It made its debut at RoboSub 2019. It is the successor to Maelstrom.'
@@ -142,7 +150,8 @@ const App = () => {
            </IconButton>
            <Typography variant="h6"> robo_thoughts </Typography>
           </Toolbar>
-        </AppBar>      
+        </AppBar>  
+        <Box className={classes.root}>    
         <Box className={classes.videoPlayer} >  
           <VideoPlayer src={videoUrl}/>   
         </Box>                   
@@ -151,17 +160,20 @@ const App = () => {
           <AccordionSummary                       
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
-            id="panel1a-header"
+            id="panel1a-header"            
           >
-          <Profile info={team} />
-          <Batteries batteryArray={batteries} className={classes.batteries}/>                         
+          <Box className={classes.robotHeader}>
+            <Profile info={team} />
+            <Batteries batteryArray={batteries} />    
+          </Box>                     
           </AccordionSummary>   
           <Divider/>       
           <AccordionDetails className={classes.root}>
             <Imu depth={depth} orientation={orientation}/> 
             <Depth depth={depth} /> 
           </AccordionDetails>
-        </Accordion>       
+        </Accordion>
+        </Box>       
       </header>          
     </div>
   )
