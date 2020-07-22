@@ -14,6 +14,7 @@ import fetch from 'node-fetch'
 import Batteries from './Batteries'
 import Depth from './Depth'
 import Imu from './Imu'
+import Profile from './Profile'
 import VideoPlayer from './VideoPlayer'
 
 const useStyles = makeStyles((theme) => ({
@@ -57,9 +58,10 @@ const App = () => {
   ])
   const [team] = useState({
     name: 'OSU Underwater Robotics Team',
+    avatarSrc: '',
     robot: {
       name: 'Puddles', 
-      info: `Puddles is the team's newest autonomous underwater vehicle. It made its debut at RoboSub 2019. It is the successor to Maelstrom.`
+      info: 'Puddles is the team\'s newest autonomous underwater vehicle. It made its debut at RoboSub 2019. It is the successor to Maelstrom.'
     },
     github: 'https://github.com/osu-uwrt',
     instagram: 'https://www.instagram.com/osu_uwrt/?hl=en',
@@ -151,19 +153,8 @@ const App = () => {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Box flexDirection="column">
-              <Typography className={classes.heading}>PUDDLES</Typography>
-              <Box
-                aria-label="Acknowledge"
-                onClick={(event) => event.stopPropagation()}
-                onFocus={(event) => event.stopPropagation()}
-              >
-                 <Avatar alt="OSU-UWRT" src="../public/favicon.ico"/>
-              <Typography>OSU Underwater Robotics Team</Typography>
-              </Box>
-            </Box>
-            <Batteries batteryArray={batteries} className={classes.batteries}/>
-                         
+          <Profile info={team} />
+          <Batteries batteryArray={batteries} className={classes.batteries}/>                         
           </AccordionSummary>   
           <Divider/>       
           <AccordionDetails className={classes.root}>
