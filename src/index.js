@@ -7,10 +7,11 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core'
 import {red, blue, green} from '@material-ui/core/colors'
 import 'fontsource-roboto';
 
-
+const prefersDarkMode = true
 
 const theme = createMuiTheme({
   palette: {
+    type: prefersDarkMode ? 'dark' : 'light',
     primary: {
       main: red[500]
     },

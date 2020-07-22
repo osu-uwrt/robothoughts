@@ -10,9 +10,7 @@ const Depth = ({depth}) => {
     <div>
       <Box display='flex'>
       <Card className='test'>
-      <Typography variant='h3'>
-        Depth
-      </Typography>
+      <Typography variant='h3'>Depth</Typography>
       {`${depth.toFixed(2)} meters `}
       {/* <Graph width={200} height={100} /> */}
       </Card>

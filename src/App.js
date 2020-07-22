@@ -1,13 +1,39 @@
 import React, { useState, useEffect } from 'react'
-import './App.css'
-import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core'
+import { BatteryUnknown, BatteryFull, Battery80, Battery50, Battery20 } from '@material-ui/icons'
+import { AppBar, Toolbar, IconButton, Typography, Box, Card, Divider } from '@material-ui/core'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'                                                                                                                                                                                                                                                                                                                                                                                                                                          
+import Accordion from '@material-ui/core/Accordion'
+import AccordionSummary from '@material-ui/core/AccordionSummary'
+import AccordionDetails from '@material-ui/core/AccordionDetails'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Avatar from '@material-ui/core/Avatar';
+import Checkbox from '@material-ui/core/Checkbox';
+import { makeStyles } from '@material-ui/core/styles'
 import MenuIcon from '@material-ui/icons/Menu'
+import fetch from 'node-fetch'
 import Batteries from './Batteries'
 import Depth from './Depth'
 import Imu from './Imu'
 import VideoPlayer from './VideoPlayer'
-import {BatteryUnknown, BatteryFull, Battery80, Battery50, Battery20} from '@material-ui/icons'
-import fetch from 'node-fetch'
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  // paper: {
+  //   padding: theme.spacing(2),
+  //   textAlign: 'center',
+  //   color: theme.palette.text.secondary,
+  // },
+  videoPlayer: {
+    height: '200px',
+    backgroundColor: 'red',
+  },
+  batteries: {
+    alignSelf: 'flex-end'
+  },
+}))
 
 const chargeIcons = [
   {key: 0, percent: 100, icon: <BatteryFull fontSize='large'color='secondary' />},
@@ -20,21 +46,40 @@ const url = 'http://127.0.0.1:5000/'
 const isActive = true
 
 const App = () => {
-  
-  // const [videoUrl, setVideoUrl] = useState()
   const [videoUrl] = useState('http://0.0.0.0:8080/stream?topic=/puddles/stereo/left/image_rect_color&type=mjpeg&quality=25') 
   const [depth, setDepth] = useState(0)
   const [orientation, setOrientation] = useState()  
-  const [videoSrc] = useState('https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8')
   const [batteries] = useState([
-    {name: 'battery1', charge: null, icon: chargeIcons[4].icon},
-    {name: 'battery2', charge: null, icon: chargeIcons[4].icon},
-    {name: 'battery3', charge: null, icon: chargeIcons[4].icon},
-    {name: 'battery4', charge: null, icon: chargeIcons[4].icon},
+    {name: 'battery1', icon: chargeIcons[4].icon},
+    {name: 'battery2', icon: chargeIcons[4].icon},
+    {name: 'battery3', icon: chargeIcons[4].icon},
+    {name: 'battery4', icon: chargeIcons[4].icon},
   ])
+  const [team] = useState({
+    name: 'OSU Underwater Robotics Team',
+    robot: {
+      name: 'Puddles', 
+      info: `Puddles is the team's newest autonomous underwater vehicle. It made its debut at RoboSub 2019. It is the successor to Maelstrom.`
+    },
+    github: 'https://github.com/osu-uwrt',
+    instagram: 'https://www.instagram.com/osu_uwrt/?hl=en',
+    website: 'https://uwrt.engineering.osu.edu/'  
+  })
+
+  useEffect(() => {
+    if (isActive) {
+      fetch(`${url}/video_feed`).then(response => response.json()).then(json => {console.log(json)})
+      console.log(videoUrl)
+      
+      const interval = setInterval(() => {
+        requestData()
+      }, 500)
+      return () => clearInterval(interval)      
+    }
+  }, [])
 
   // retrieve information from robo_thoughts backend
-  const userAction = () => {
+  const requestData = () => {
     var data = {
       'request': [
         {'data': 'position'},
@@ -65,30 +110,10 @@ const App = () => {
           i.icon = getBatteryIcon(i.charge)
         })
         
-      })
-
-  // const updateSampleData = () => {
-    
+      })    
   }
 
-  useEffect(() => {
-    if (isActive) {
-      fetch(`${url}/video_feed`).then(response => response.json()).then(json => {console.log(json)})
-      console.log(videoUrl)
-      
-      const interval = setInterval(() => {
-        userAction()
-      }, 500)
-      return () => clearInterval(interval)      
-    } else {
-      console.warn(`
-      ----------------------------------------
-      Running in offline mode with sample data
-      ----------------------------------------
-      `)
-    }
-  }, [])
-
+  // returns the correct material ui battery icon to match the charge parameter
   const getBatteryIcon = (charge) => {
     if(charge !== null) {
           // find the battery icon that matches closest to the current charge
@@ -103,28 +128,49 @@ const App = () => {
         }
   }
 
+  const classes = useStyles();
+
   return (    
     <div className="App">
       <header className="App-header">
-
-      <AppBar position="fixed">
-        <Toolbar color='primary'>
-        <IconButton edge="start" aria-label="menu">
-          <MenuIcon color='secondary'/>
-    </IconButton>
-    <Typography variant="h6">
-      {/* add link tag to osu uwrt */}
-      robo_thoughts
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Toolbar />  
-      <Batteries batteryArray={batteries} />
-      <Depth 
-        depth={depth}        
-      />
-      <Imu depth={depth} orientation={orientation}/>
-      <VideoPlayer src={videoUrl}/>
+        <AppBar position="fixed">
+          <Toolbar color='primary'>
+          <IconButton edge="start" aria-label="menu">
+            <MenuIcon color='secondary'/>
+           </IconButton>
+           <Typography variant="h6"> robo_thoughts </Typography>
+          </Toolbar>
+        </AppBar>      
+        <Box className={classes.videoPlayer} >  
+          <VideoPlayer src={videoUrl}/>   
+        </Box>                   
+        
+        <Accordion defaultExpanded={true}>
+          <AccordionSummary                       
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Box flexDirection="column">
+              <Typography className={classes.heading}>PUDDLES</Typography>
+              <Box
+                aria-label="Acknowledge"
+                onClick={(event) => event.stopPropagation()}
+                onFocus={(event) => event.stopPropagation()}
+              >
+                 <Avatar alt="OSU-UWRT" src="../public/favicon.ico"/>
+              <Typography>OSU Underwater Robotics Team</Typography>
+              </Box>
+            </Box>
+            <Batteries batteryArray={batteries} className={classes.batteries}/>
+                         
+          </AccordionSummary>   
+          <Divider/>       
+          <AccordionDetails className={classes.root}>
+            <Imu depth={depth} orientation={orientation}/> 
+            <Depth depth={depth} /> 
+          </AccordionDetails>
+        </Accordion>       
       </header>          
     </div>
   )

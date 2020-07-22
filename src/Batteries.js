@@ -12,8 +12,7 @@ const Batteries = ({batteryArray}) => {
   }
 
   return (
-    <Box display='flex' className='batteryContainer'>
-      <Card>
+    <Box className='batteryContainer'>     
         <Box display='flex' flexDirection='row'>
         {batteryArray.map(i => {
           return <Battery 
@@ -27,14 +26,16 @@ const Batteries = ({batteryArray}) => {
         <FormControlLabel
         control={
           <Switch
+            aria-label="Acknowledge"
+            onClick={(event) => event.stopPropagation()}
+            onFocus={(event) => event.stopPropagation()}
             checked={showPercent}
             onChange={handleChange}
             name="percentSwitch"
           />
         }
         label="Show percent"
-      />
-      </Card>
+      />    
     </Box>
   )
 }
