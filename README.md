@@ -1,13 +1,22 @@
 # TEMPORARY README.md FOR SETUP
 
-## Starting
-You will need the following to run this project:
+## Setup
+
+install node.js
+
+Install yarn package manager
+
+linux
 ```
 $ sudo apt-install yarn
 ```
+navigate into robothoughts' directory and run the following command to install the project dependences
+```
+$ yarn
+```
 
-Do the following to get running:
+## Starting
+run the following to start the app:
 ```
 $ yarn start
-$ yarn start-api
 ```
