@@ -33,7 +33,8 @@ const useStyles = makeStyles((theme) => ({
     height: '400px',
     width: '100%',
     display: 'flex',
-    backgroundColor: 'purple',
+    marginTop: '70px',
+    // backgroundColor: 'purple',
   },
   robotHeader: {
     display: 'flex',
