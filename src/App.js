@@ -59,6 +59,7 @@ const App = () => {
   const [videoUrl] = useState('http://0.0.0.0:8080/stream?topic=/puddles/stereo/left/image_rect_color&type=mjpeg&quality=25') 
   const [depth, setDepth] = useState(0)
   const [orientation, setOrientation] = useState()  
+  const [position, setPosition] = useState({x: 0, y: 0, z: 0})
   const [batteries] = useState([
     {name: 'battery1', icon: chargeIcons[4].icon},
     {name: 'battery2', icon: chargeIcons[4].icon},
@@ -112,15 +113,15 @@ const App = () => {
     }).then(response => response.json())
       .then(json => {
         // set state
-        console.log(json)
+        // console.log(json)
+        setPosition(json.data[0].position)
         setOrientation(json.data[1])
-        setDepth(json.data[2].depth * -1 + Math.random())
+        setDepth(json.data[2].depth * -1)
         batteries.map(i => {
           let rand = Math.random() * 100
           i.charge = rand
           i.icon = getBatteryIcon(i.charge)
-        })
-        
+        })        
       })    
   }
 
@@ -171,7 +172,7 @@ const App = () => {
           <Divider/>       
           <AccordionDetails className={classes.root}>
             <Imu depth={depth} orientation={orientation}/> 
-            <Depth depth={depth} /> 
+            <Depth depth={depth} position={position}/> 
           </AccordionDetails>
         </Accordion>
         </Box>       

@@ -4,17 +4,15 @@ import { Tabs, Tab, Card, Box, Typography } from '@material-ui/core'
 import Graph from './Graph'
 
 // receive both 'state depth' and 'controls depth'
-const Depth = ({depth}) => {
+const Depth = ({depth, position}) => {
 
   return (
     <div>
-      <Box display='flex'>
-      <Card className='test'>
-      <Typography variant='h3'>Depth</Typography>
-      {`${depth.toFixed(2)} meters `}
-      {/* <Graph width={200} height={100} /> */}
-      </Card>
-      </Box>
+      <Box display='flex'>            
+      {`depth: ${depth.toFixed(2)} meters `}
+      {/* <Graph width={200} height={100} /> */}    
+      {`x: ${position.x.toFixed(2)} y: ${position.y.toFixed(2)} z: ${position.z.toFixed(2)}`}
+      </Box>      
     </div>
   )
 }
