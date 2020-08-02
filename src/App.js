@@ -23,17 +23,16 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     maxWidth: '800px',
     margin: 'auto',
+    marginTop: '70px'
   },
   // paper: {
   //   padding: theme.spacing(2),
   //   textAlign: 'center',
   //   color: theme.palette.text.secondary,
   // },
-  videoPlayer: {
-    height: '400px',
+  videoPlayer: {    
     width: '100%',
-    display: 'flex',
-    marginTop: '70px',
+    display: 'flex',    
     // backgroundColor: 'purple',
   },
   robotHeader: {
@@ -153,11 +152,10 @@ const App = () => {
            <Typography variant="h6"> robo_thoughts </Typography>
           </Toolbar>
         </AppBar>  
-        <Box className={classes.root}>    
-        <Box className={classes.videoPlayer} >  
-          <VideoPlayer src={videoUrl}/>   
-        </Box>                   
+        <Box className={classes.root}>            
         
+        <VideoPlayer className={classes.videoPlayer} src={videoUrl}/>                   
+
         <Accordion defaultExpanded={true}>
           <AccordionSummary                       
             expandIcon={<ExpandMoreIcon />}
