@@ -16,6 +16,7 @@ import Depth from './Depth'
 import Imu from './Imu'
 import Profile from './Profile'
 import VideoPlayer from './VideoPlayer'
+import useStore from './store'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,6 +77,7 @@ const App = () => {
     instagram: 'https://www.instagram.com/osu_uwrt/?hl=en',
     website: 'https://uwrt.engineering.osu.edu/'  
   })
+  const actions = useStore(state => state.actions)
 
   useEffect(() => {
     if (isActive) {
@@ -84,7 +86,7 @@ const App = () => {
       
       const interval = setInterval(() => {
         requestData()
-      }, 500)
+      }, 100)
       return () => clearInterval(interval)      
     }
   }, [])
@@ -113,6 +115,8 @@ const App = () => {
       .then(json => {
         // set state
         // console.log(json)
+        actions.updatePosition(json.data[0].position) 
+        actions.updateOrientation(json.data[1].orientation)       
         setPosition(json.data[0].position)
         setOrientation(json.data[1])
         setDepth(json.data[2].depth * -1)
@@ -169,7 +173,7 @@ const App = () => {
           </AccordionSummary>   
           <Divider/>       
           <AccordionDetails className={classes.root}>
-            <Imu depth={depth} orientation={orientation}/> 
+            <Imu /> 
             <Depth depth={depth} position={position}/> 
           </AccordionDetails>
         </Accordion>

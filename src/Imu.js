@@ -3,9 +3,14 @@ import * as THREE from 'three';
 import { Canvas, useRender, useFrame } from 'react-three-fiber'
 // import { ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader'
 import { Card } from '@material-ui/core'
+import useStore from './store'
 
 
-const Imu = ({ depth, orientation }) => { 
+const Imu = () => { 
+
+  const mutation = useStore(state => state.mutation)
+  const { position, orientation, fov } = mutation
+  const actions = useStore(state => state.actions)
 
     // // const [geometry] = useState(new THREE.BoxGeometry(1, 1, 1))    
     // // const [material] = useState(new THREE.MeshBasicMaterial({ color: 0x00ff00 }))
@@ -99,20 +104,22 @@ const Imu = ({ depth, orientation }) => {
     //     canvasRef.current.removeChild(renderer.domElement)
     //     scene.remove(model, water)
     //   }
-    // }, [])
+    // }, [])      
 
-  const Robot = ()=> {}
-    
-  const Water = ()=> {}
+    const [hovered, setHover] = useState(false)
+    const [active, setActive] = useState(false)
   
-  const Box = (props) => {
+  const Robot = (props) => {
     // This reference will give us direct access to the mesh
     const mesh = useRef()
+    useFrame(() => {
+      mesh.current.setRotationFromQuaternion(orientation)
+      mesh.current.position.y = position.y
+      console.log(orientation.x)
+    })
    
     // console.log(orientation + ' tacocat')
     // Set up state for the hovered and active state
-    const [hovered, setHover] = useState(false)
-    const [active, setActive] = useState(false)
   
     // Rotate mesh every frame, this is outside of React without overhead    
     // useFrame(() => (mesh.current.setRotationFromQuaternion(THREE.Quaternion(orientation.x, orientation.y, orientation.z, orientation.w,).normalize())))   
@@ -125,25 +132,26 @@ const Imu = ({ depth, orientation }) => {
         onClick={e => setActive(!active)}
         onPointerOver={e => setHover(true)}
         onPointerOut={e => setHover(false)}>
-        <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
+        <boxBufferGeometry attach="geometry" args={[4, 1, 2]} />
         <meshStandardMaterial attach="material" color={hovered ? 'hotpink' : 'orange'} />
       </mesh>
     )
-  }
-
-  const box = useRef()
-  // useFrame(() => (box.current.position.y = 3))
+  } 
 
   return (
     <div>
         <Card>
-            this is the imu :)
-            {console.log(orientation)}
-            <Canvas colorManagement>
+            this is the imu :)            
+            <Canvas 
+              colorManagement
+              camera={{ position: [3, 3, 3], near: 0.01, far: 50, fov }}
+              onCreated={({ camera }) => {
+                actions.init(camera)                
+              }}
+            >            
               <ambientLight />
               <pointLight position={[10, 10, 10]} />
-              <Box ref={box} />
-              <Box position={[1.2, 0, 0]} />
+              <Robot />              
             </Canvas>
             this is the imu :)
         </Card> 

@@ -14,8 +14,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',    
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'nowrap',
-    // marginTop: '68px',
+    flexWrap: 'nowrap'    
   },
   video: {
     position: 'absolute',
@@ -28,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     // height: '400px',
     flexWrap: 'wrap',
-    background: 'blue',  
   },
   centerControls: {
     width: '100%',  
@@ -46,15 +44,16 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const VideoPlayer = ({ src }) => {
-  const playerRef = useRef();
-  const classes = useStyles();
+  const playerRef = useRef()
+  const imgRef = useRef()
+  const classes = useStyles()
   const [width, setWidth] = useState(0)
   const [isLive] = useState(true)
 
   useLayoutEffect(() => {
     function updateSize() {
       setWidth(playerRef.current.clientWidth)
-      // playerRef.current.height = width * 9 / 16
+      // imgRef.current.height = width * 9 / 16
     }
     window.addEventListener('resize', updateSize);
     updateSize();
@@ -64,7 +63,7 @@ const VideoPlayer = ({ src }) => {
   return (
         <Box className={classes.player} ref={playerRef} height={width * 9 / 16}>
           <Box>    
-          <img 
+          <img              
               className={classes.video}                           
               src={src}                           
               height={width * 9 / 16}
@@ -76,11 +75,8 @@ const VideoPlayer = ({ src }) => {
               <PauseIcon fontSize="large"/>
             </IconButton>                
             </Box>   */}
-            <Box className={classes.lowerControls}>
-              <IconButton aria-label="delete" className={classes.margin} size="small" disabled={!isLive} >
-                <FiberManualRecordIcon fontSize="small"/>
-                <Typography>LIVE</Typography>
-              </IconButton> 
+            <Box className={classes.lowerControls}>               
+                <Typography>LIVE</Typography>                           
               {/* <IconButton aria-label="delete" className={classes.margin} size="small">
                 <FullscreenIcon fontSize="large"/>
               </IconButton>                       */}
