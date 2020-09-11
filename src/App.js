@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { BatteryUnknown, BatteryFull, Battery80, Battery50, Battery20 } from '@material-ui/icons'
-import { AppBar, Toolbar, IconButton, Typography, Box, Card, Divider } from '@material-ui/core'
+import { AppBar, Toolbar, IconButton, Typography, Box, Card, Divider, FormGroup, Switch } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'                                                                                                                                                                                                                                                                                                                                                                                                                                          
 import Accordion from '@material-ui/core/Accordion'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
@@ -12,7 +12,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import MenuIcon from '@material-ui/icons/Menu'
 import fetch from 'node-fetch'
 import Batteries from './Batteries'
-import Depth from './Depth'
+import Data from './Data'
 import Imu from './Imu'
 import Profile from './Profile'
 import VideoPlayer from './VideoPlayer'
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     maxWidth: '800px',
     margin: 'auto',
-    marginTop: '70px'
+    // marginTop: '70px'
   },
   // paper: {
   //   padding: theme.spacing(2),
@@ -56,6 +56,7 @@ const url = 'http://127.0.0.1:5000/'
 const isActive = true
 
 const App = () => {
+  const [isMetric, setMetric] = useState(true);
   const [videoUrl] = useState('http://0.0.0.0:8080/stream?topic=/puddles/stereo/left/image_rect_color&type=mjpeg&quality=25') 
   const [depth, setDepth] = useState(0)
   const [orientation, setOrientation] = useState()  
@@ -143,6 +144,10 @@ const App = () => {
         }
   }
 
+  const toggleMetric = () => {
+    setMetric((prev) => !prev)
+  }
+
   const classes = useStyles();
 
   return (    
@@ -173,8 +178,15 @@ const App = () => {
           </AccordionSummary>   
           <Divider/>       
           <AccordionDetails className={classes.root}>
+            <FormGroup>
+              <FormControlLabel
+                control={<Switch checked={isMetric} onChange={toggleMetric} />}
+                label="Metric"
+                labelPlacement="start"
+              />
+            </FormGroup>
             <Imu /> 
-            <Depth depth={depth} position={position}/> 
+            <Data isMetric={isMetric} depth={depth} position={position}/> 
           </AccordionDetails>
         </Accordion>
         </Box>       
