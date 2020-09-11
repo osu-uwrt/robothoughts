@@ -41,11 +41,11 @@ const [useStore, api] = create((set, get) => {
         })
       },
       updatePosition(pos) {
-          get().mutation.position.set(pos.x, pos.y, pos.z)
+          get().mutation.position.set(pos.x, pos.y + 3, pos.z)
       },
       updateOrientation(q) {
-          get().mutation.orientation.set(0, 0, 1, 0).normalize()
-          console.log(get().mutation.orientation)
+          let temp = new THREE.Quaternion().set(q.x, q.y, q.z, q.w).normalize()
+          get().mutation.orientation.copy(temp)        
       },
     }
   }

@@ -119,7 +119,7 @@ const App = () => {
         actions.updateOrientation(json.data[1].orientation)       
         setPosition(json.data[0].position)
         setOrientation(json.data[1])
-        setDepth(json.data[2].depth * -1)
+        setDepth(json.data[2].depth * -1) 
         batteries.map(i => {
           let rand = Math.random() * 100
           i.charge = rand

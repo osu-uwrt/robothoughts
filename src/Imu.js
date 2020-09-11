@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three';
-import { Canvas, useRender, useFrame } from 'react-three-fiber'
+import { Canvas, useFrame } from 'react-three-fiber'
 // import { ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader'
 import { Card } from '@material-ui/core'
 import useStore from './store'
-
+import { ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader'
 
 const Imu = () => { 
+
 
   const mutation = useStore(state => state.mutation)
   const { position, orientation, fov } = mutation
@@ -104,19 +105,18 @@ const Imu = () => {
     //     canvasRef.current.removeChild(renderer.domElement)
     //     scene.remove(model, water)
     //   }
-    // }, [])      
-
-    const [hovered, setHover] = useState(false)
-    const [active, setActive] = useState(false)
+    // }, [])
   
   const Robot = (props) => {
     // This reference will give us direct access to the mesh
     const mesh = useRef()
-    useFrame(() => {
-      mesh.current.setRotationFromQuaternion(orientation)
-      mesh.current.position.y = position.y
-      console.log(orientation.x)
-    })
+    // const dae = useLoader(ColladaLoader, modeldae);
+    // console.log(dae)
+    // useRender(() => {
+    //   // mesh.current.setRotationFromQuaternion(orientation)
+    //   mesh.current.position.y = position.y
+    //   console.log(orientation.x)
+    // })
    
     // console.log(orientation + ' tacocat')
     // Set up state for the hovered and active state
@@ -128,12 +128,9 @@ const Imu = () => {
       <mesh
         {...props}
         ref={mesh}
-        scale={active ? [1.5, 1.5, 1.5] : [1, 1, 1]}
-        onClick={e => setActive(!active)}
-        onPointerOver={e => setHover(true)}
-        onPointerOut={e => setHover(false)}>
+        scale={[1, 1, 1]}>
         <boxBufferGeometry attach="geometry" args={[4, 1, 2]} />
-        <meshStandardMaterial attach="material" color={hovered ? 'hotpink' : 'orange'} />
+        <meshStandardMaterial attach="material" />
       </mesh>
     )
   } 

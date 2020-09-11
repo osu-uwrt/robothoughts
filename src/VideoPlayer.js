@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useLayoutEffect } from 'react'
 import videojs from 'video.js'
-import { Card, Box, IconButton, Typography } from '@material-ui/core'
+import { Card, Box, IconButton, Typography, Button } from '@material-ui/core'
 import 'video.js/dist/video-js.css'
 import FullscreenIcon from '@material-ui/icons/Fullscreen'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
@@ -14,7 +14,8 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',    
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'nowrap'    
+    flexWrap: 'nowrap', 
+    position: 'relative' 
   },
   video: {
     position: 'absolute',
@@ -23,10 +24,14 @@ const useStyles = makeStyles((theme) => ({
     // width: '100%',
   },
   controls: {
-    display: 'flex', 
-    width: '100%',
+    position: 'absolute',
+    bottom: '4px',
+    left: '4px',
+    // display: 'flex', 
+    // width: '100%',
     // height: '400px',
-    flexWrap: 'wrap',
+    // flexWrap: 'wrap',
+    
   },
   centerControls: {
     width: '100%',  
@@ -40,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignSelf: 'flex-end',
     justifyContent: 'space-between',
+
   }   
 }))
 
@@ -61,28 +67,18 @@ const VideoPlayer = ({ src }) => {
   }, []);
 
   return (
-        <Box className={classes.player} ref={playerRef} height={width * 9 / 16}>
-          <Box>    
+        <Box className={classes.player} ref={playerRef} height={width * 9 / 16}>              
           <img              
               className={classes.video}                           
               src={src}                           
               height={width * 9 / 16}
-          />
-          </Box>
-          <Box className={classes.controls}>    
-            {/* <Box className={classes.centerControls}> 
-            <IconButton aria-label="delete" className={classes.margin} size="small">
-              <PauseIcon fontSize="large"/>
-            </IconButton>                
-            </Box>   */}
-            <Box className={classes.lowerControls}>               
-                <Typography>LIVE</Typography>                           
-              {/* <IconButton aria-label="delete" className={classes.margin} size="small">
-                <FullscreenIcon fontSize="large"/>
-              </IconButton>                       */}
-            </Box>     
-          </Box>
-      </Box>
+          />          
+          <Box className={classes.controls}>                                    
+            <Button size="small" variant="contained" color="primary">
+              Live
+            </Button>        
+          </Box>     
+        </Box>  
   )
 }
 
