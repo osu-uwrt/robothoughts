@@ -127,18 +127,17 @@ const Imu = () => {
     return (
       <mesh
         {...props}
-        ref={mesh}
+        ref={mesh}        
         scale={[1, 1, 1]}>
         <boxBufferGeometry attach="geometry" args={[4, 1, 2]} />
-        <meshStandardMaterial attach="material" />
+        <meshStandardMaterial attach="material" color="black"/>
       </mesh>
     )
   } 
 
   return (
     <div>
-        <Card>
-            this is the imu :)            
+        <Card>                       
             <Canvas 
               colorManagement
               camera={{ position: [3, 3, 3], near: 0.01, far: 50, fov }}
@@ -149,8 +148,7 @@ const Imu = () => {
               <ambientLight />
               <pointLight position={[10, 10, 10]} />
               <Robot />              
-            </Canvas>
-            this is the imu :)
+            </Canvas>            
         </Card> 
     </div>
   )

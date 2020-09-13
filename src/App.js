@@ -23,8 +23,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     maxWidth: '800px',
-    margin: 'auto',
-    // marginTop: '70px'
+    margin: 'auto',    
   },
   // paper: {
   //   padding: theme.spacing(2),
@@ -122,7 +121,7 @@ const App = () => {
         setOrientation(json.data[1])
         setDepth(json.data[2].depth * -1) 
         batteries.map(i => {
-          let rand = Math.random() * 100
+          let rand = Math.random() * 0
           i.charge = rand
           i.icon = getBatteryIcon(i.charge)
         })        
@@ -158,37 +157,35 @@ const App = () => {
           <IconButton edge="start" aria-label="menu">
             <MenuIcon color='secondary'/>
            </IconButton>
-           <Typography variant="h6"> robo_thoughts </Typography>
+           <Typography variant="h6">robo_thoughts</Typography>
           </Toolbar>
         </AppBar>  
-        <Box className={classes.root}>            
-        
-        <VideoPlayer className={classes.videoPlayer} src={videoUrl}/>                   
-
-        <Accordion defaultExpanded={true}>
-          <AccordionSummary                       
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"            
-          >
-          <Box className={classes.robotHeader}>
-            <Profile info={team} />
-            <Batteries batteryArray={batteries} />    
-          </Box>                     
-          </AccordionSummary>   
-          <Divider/>       
-          <AccordionDetails className={classes.root}>
-            <FormGroup>
-              <FormControlLabel
-                control={<Switch checked={isMetric} onChange={toggleMetric} />}
-                label="Metric"
-                labelPlacement="start"
-              />
-            </FormGroup>
-            <Imu /> 
-            <Data isMetric={isMetric} depth={depth} position={position}/> 
-          </AccordionDetails>
-        </Accordion>
+        <Box className={classes.root}>
+        <VideoPlayer className={classes.videoPlayer} src={videoUrl}/>
+          <Accordion defaultExpanded={true}>
+            <AccordionSummary                       
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"            
+            >
+            <Box className={classes.robotHeader}>
+              <Profile info={team} />
+              <Batteries batteryArray={batteries} />    
+            </Box>                     
+            </AccordionSummary>   
+            <Divider/>       
+            <AccordionDetails className={classes.root}>
+              <FormGroup>
+                <FormControlLabel
+                  control={<Switch checked={isMetric} onChange={toggleMetric} />}
+                  label="Metric"
+                  labelPlacement="start"
+                />
+              </FormGroup>
+              <Imu /> 
+              <Data isMetric={isMetric} depth={depth} position={position}/> 
+            </AccordionDetails>
+          </Accordion>
         </Box>       
       </header>          
     </div>
