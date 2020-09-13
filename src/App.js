@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '800px',
     margin: 'auto',    
   },
+  toolbar: theme.mixins.toolbar,
   // paper: {
   //   padding: theme.spacing(2),
   //   textAlign: 'center',
@@ -161,6 +162,7 @@ const App = () => {
           </Toolbar>
         </AppBar>  
         <Box className={classes.root}>
+        <Box className={classes.toolbar}></Box>
         <VideoPlayer className={classes.videoPlayer} src={videoUrl}/>
           <Accordion defaultExpanded={true}>
             <AccordionSummary                       
