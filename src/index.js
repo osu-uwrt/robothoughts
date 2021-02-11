@@ -3,14 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core'
+import { MuiThemeProvider, createMuiTheme, responsiveFontSizes } from '@material-ui/core'
 import {red, blue, green} from '@material-ui/core/colors'
 import 'fontsource-roboto';
 
-
+const prefersDarkMode = false
 
 const theme = createMuiTheme({
   palette: {
+    type: prefersDarkMode ? 'dark' : 'light',
     primary: {
       main: red[500]
     },
@@ -28,8 +29,6 @@ const theme = createMuiTheme({
   
 })
 
-console.log(theme)
-
 ReactDOM.render(
   <React.StrictMode>
       <MuiThemeProvider theme = {theme}>
@@ -43,5 +42,3 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
-
-//test

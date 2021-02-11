@@ -1,30 +1,27 @@
 import React, { useState } from 'react';
-import { Tabs, Tab } from '@material-ui/core'
+import { Tabs, Tab, Card, Box, Typography } from '@material-ui/core'
+// import { letterFrequency } from '@vx/mock-data'
+import Graph from './Graph'
 
+// receive both 'state depth' and 'controls depth'
+const Depth = ({isMetric, depth, position}) => {
 
+  const toFeet = 3.2808
 
-// takes in a key value pair array map = [{'depth type', depth},...]
-const Depth = ({stateDepth, controlsDepth}) => {
-  const [depthType, setDepthType] = useState(0);
-
-  const handleDepthChange = (event, newValue) => {    
-      setDepthType(newValue);
-      console.log(depthType)
-    };
-  // set the battery icon to match the passed in charge number
+  const getNumber = (n) => {
+    let ans = n * isMetric ? 1 : toFeet
+    return ans.toFixed(2)
+  }
 
   return (
     <div>
-      <Tabs
-        value={depthType}
-        indicatorColor="primary"
-        textColor="primary"
-        onChange={handleDepthChange}
-        aria-label="disabled tabs example"
-      >
-        <Tab label="State Depth" />
-        <Tab label="Controls Depth"/>
-      </Tabs>
+      <Box display='flex'>  
+      <Typography>          
+      {`depth: ${getNumber(depth)}`}
+      {/* <Graph width={200} height={100} /> */}    
+      {`x: ${getNumber(position.x)} y: ${getNumber(position.y)} z: ${getNumber(position.z)}`}
+      </Typography>
+      </Box>       
     </div>
   )
 }
