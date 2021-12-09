@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, useLayoutEffect } from 'react'
+import ReactHlsPlayer from 'react-hls-player'
 import videojs from 'video.js'
 import { Card, Box, IconButton, Typography, Button } from '@material-ui/core'
 import 'video.js/dist/video-js.css'
@@ -67,18 +68,24 @@ const VideoPlayer = ({ src }) => {
   }, []);
 
   return (
-        <Box className={classes.player} ref={playerRef} height={width * 9 / 16}>              
-          <img              
-              className={classes.video}                           
-              src={src}                           
-              height={width * 9 / 16}
-          />          
-          <Box className={classes.controls}>                                    
-            <Button size="small" variant="contained" color="primary">
-              Live
-            </Button>        
-          </Box>     
-        </Box>  
+        <Box>
+          <Box className={classes.player} ref={playerRef} height={width * 9 / 16}>              
+            <ReactHlsPlayer 
+              src={src}
+              autoPlay={false}
+              controls={true}
+              width="100%"
+              height="auto"
+              hlsConfig={{
+                backBufferLength: 10,
+                maxFragLookUpTolerence: .5
+              }}
+              />            
+          </Box> 
+          <Button size="small" href={src} target="_blank" variant="contained" color="primary" style={{marginTop: 5}}>
+            NotPlaying?
+          </Button> 
+        </Box> 
   )
 }
 

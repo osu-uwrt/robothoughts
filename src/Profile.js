@@ -99,7 +99,7 @@ const Profile = ({info}) => {
           <Fade {...TransitionProps} timeout={350}>
             <Paper>
             <List component="nav" aria-label="main mailbox folders">
-            <Link href="https://github.com/osu-uwrt/">
+            <Link target="_blank" href="https://github.com/osu-uwrt/">
               <ListItem button>
                 <ListItemIcon>
                   <GitHubIcon />
@@ -107,7 +107,7 @@ const Profile = ({info}) => {
                 <ListItemText primary="Github" />
               </ListItem>
               </Link>
-              <Link href="https://www.instagram.com/osu_uwrt/">
+              <Link target="_blank" href="https://www.instagram.com/osu_uwrt/">
               <ListItem button>
                 <ListItemIcon>
                   <InstagramIcon />
@@ -115,7 +115,7 @@ const Profile = ({info}) => {
                 <ListItemText primary="Instagram" />
               </ListItem> 
               </Link>
-              <Link href="https://uwrt.engineering.osu.edu/">
+              <Link target="_blank" href="https://org.osu.edu/osu-uwrt/">
               <ListItem button>
                 <ListItemIcon>
                   <WebIcon />

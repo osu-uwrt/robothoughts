@@ -30,11 +30,11 @@ const theme = createMuiTheme({
 })
 
 ReactDOM.render(
-  <React.StrictMode>
+  //<React.StrictMode>
       <MuiThemeProvider theme = {theme}>
         <App />  
-      </MuiThemeProvider>    
-  </React.StrictMode>,
+      </MuiThemeProvider> ,   
+  //</React.StrictMode>,
   document.getElementById('root')
 );
 

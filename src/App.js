@@ -6,17 +6,16 @@ import Accordion from '@material-ui/core/Accordion'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
 import AccordionDetails from '@material-ui/core/AccordionDetails'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Avatar from '@material-ui/core/Avatar';
-import Checkbox from '@material-ui/core/Checkbox';
 import { makeStyles } from '@material-ui/core/styles'
 import MenuIcon from '@material-ui/icons/Menu'
 import fetch from 'node-fetch'
 import Batteries from './Batteries'
 import Data from './Data'
-import Imu from './Imu'
 import Profile from './Profile'
 import VideoPlayer from './VideoPlayer'
 import useStore from './store'
+import ModelViewer from './ModelViewer'
+import renderModelViewer from "./renderModelViewer"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,15 +51,18 @@ const chargeIcons = [
   {key: 3, percent: 20, icon: <Battery20 fontSize='large' color='error' />},
   {key: 4, percent: null, icon: <BatteryUnknown fontSize='large' color='error' />}    
 ]
-const url = 'http://127.0.0.1:5000/'
+const url = 'http://robothoughts-server.local:5000'
 const isActive = true
+var modelViewerRendered = false;
 
 const App = () => {
+  //stop a broken screen from popping up when the api is down
+  const [apiResponding, setApiResponding] = useState(true); // IMPORTANT --- Change default to false before production build
   const [isMetric, setMetric] = useState(true);
-  const [videoUrl] = useState('http://0.0.0.0:8080/stream?topic=/puddles/stereo/left/image_rect_color&type=mjpeg&quality=25') 
   const [depth, setDepth] = useState(0)
-  const [orientation, setOrientation] = useState()  
+  const [orientation, setOrientation] = useState({x: 0, y: 0, z: 0})  
   const [position, setPosition] = useState({x: 0, y: 0, z: 0})
+  const [videoUrl, setVideoUrl] = useState('http://0.0.0.0:8081/hls/stream.m3u8');
   const [batteries] = useState([
     {name: 'battery1', icon: chargeIcons[4].icon},
     {name: 'battery2', icon: chargeIcons[4].icon},
@@ -71,19 +73,32 @@ const App = () => {
     name: 'OSU Underwater Robotics Team',
     avatarSrc:'/logo.jpg',
     robot: {
-      name: 'Puddles', 
-      info: 'Puddles is the team\'s newest autonomous underwater vehicle. It made its debut at RoboSub 2019. It is the successor to Maelstrom.'
+      name: 'Tempest', 
+      info: 'Tempest is the team\'s newest autonomous underwater vehicle. It made its debut at RoboSub 2019. It is the successor to Maelstrom.'
     },
     github: 'https://github.com/osu-uwrt',
     instagram: 'https://www.instagram.com/osu_uwrt/?hl=en',
-    website: 'https://uwrt.engineering.osu.edu/'  
+    website: 'https://org.osu.edu/osu-uwrt'  
   })
   const actions = useStore(state => state.actions)
 
   useEffect(() => {
     if (isActive) {
-      fetch(`${url}/video_feed`).then(response => response.json()).then(json => {console.log(json)})
-      console.log(videoUrl)
+      fetch(`${url}/video_feed`, {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'same-origin',
+        headers: {
+         'Content-Type': 'application/json',
+         'Accept': 'application/json'
+        }}).then(response => response.json()).then(json => {
+          console.log("The request says:" + json.data[0].url);
+          setVideoUrl(json.data[0].url);
+      }).catch(error => {
+        console.log(error)
+      });
+
+      console.log("The video url is:" + videoUrl);
       
       const interval = setInterval(() => {
         requestData()
@@ -100,9 +115,10 @@ const App = () => {
         {'data': 'orientation'},
         {'data': 'depth'}
       ]
-    }
+    };
     
     // send a post request to robo_thoughts backend containing the above json object
+    
     var response = fetch(url, {
       method: 'POST',
       mode: 'cors',
@@ -114,11 +130,15 @@ const App = () => {
       body: JSON.stringify(data)
     }).then(response => response.json())
       .then(json => {
+
+        setApiResponding(true)
+
         // set state
         // console.log(json)
         actions.updatePosition(json.data[0].position) 
         actions.updateOrientation(json.data[1].orientation)       
         setPosition(json.data[0].position)
+        console.log(json.data[1]);
         setOrientation(json.data[1])
         setDepth(json.data[2].depth * -1) 
         batteries.map(i => {
@@ -126,7 +146,10 @@ const App = () => {
           i.charge = rand
           i.icon = getBatteryIcon(i.charge)
         })        
-      })    
+      }).catch(error => {
+          //setApiResponding(false)// IMPORTANT --- uncomment before production build
+          console.log(error)
+      });
   }
 
   // returns the correct material ui battery icon to match the charge parameter
@@ -148,47 +171,78 @@ const App = () => {
     setMetric((prev) => !prev)
   }
 
+  const toggleMenu = () =>{
+  }
+
   const classes = useStyles();
+
+  //for puddles viewer
+  const [x_modelRotation, setx_modelRotation] = useState(0)
+  const [y_modelRotation, sety_modelRotation] = useState(0)
+  const [z_modelRotation, setz_modelRotation] = useState(0)
+
+  const setXmodelRotation = (radians) => {
+    setx_modelRotation(radians);
+  }
+
+  const setYmodelRotation = (radians) => {
+    sety_modelRotation(radians);
+  }
+
+  const setZmodelRotation = (radians) => {
+    setz_modelRotation(radians);
+  }
+
+  setTimeout(renderModelViewer, 5000);
 
   return (    
     <div className="App">
       <header className="App-header">
         <AppBar position="fixed">
           <Toolbar color='primary'>
-          <IconButton edge="start" aria-label="menu">
+          <IconButton onClick={toggleMenu} edge="start" aria-label="menu">
             <MenuIcon color='secondary'/>
            </IconButton>
-           <Typography variant="h6">robo_thoughts</Typography>
+           <Typography variant="h6">Robo Thoughts</Typography>
           </Toolbar>
         </AppBar>  
-        <Box className={classes.root}>
-        <Box className={classes.toolbar}></Box>
-        <VideoPlayer className={classes.videoPlayer} src={videoUrl}/>
-          <Accordion defaultExpanded={true}>
-            <AccordionSummary                       
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"            
-            >
-            <Box className={classes.robotHeader}>
-              <Profile info={team} />
-              <Batteries batteryArray={batteries} />    
-            </Box>                     
-            </AccordionSummary>   
-            <Divider/>       
-            <AccordionDetails className={classes.root}>
-              <FormGroup>
-                <FormControlLabel
-                  control={<Switch checked={isMetric} onChange={toggleMetric} />}
-                  label="Metric"
-                  labelPlacement="start"
-                />
-              </FormGroup>
-              <Imu /> 
-              <Data isMetric={isMetric} depth={depth} position={position}/> 
-            </AccordionDetails>
-          </Accordion>
-        </Box>       
+        {apiResponding ? 
+          <Box className={classes.root}>
+          <Box className={classes.toolbar}></Box>
+          <VideoPlayer className={classes.videoPlayer} src={videoUrl}/>
+            <Accordion defaultExpanded={true}>
+              <AccordionSummary                       
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"            
+              >
+              <Box className={classes.robotHeader}>
+                <Profile info={team} />
+                <Batteries batteryArray={batteries} />    
+              </Box>                     
+              </AccordionSummary>   
+              <Divider/>       
+              <AccordionDetails id="DataViewerAccordian" className={classes.root}>
+                <FormGroup>
+                  <FormControlLabel
+                    control={<Switch checked={isMetric} onChange={toggleMetric} />}
+                    label="Metric"
+                    labelPlacement="start"
+                  />
+                </FormGroup>
+                <ModelViewer parentID="DataViewerAccordian" x_rotation={orientation.x} y_rotation={orientation.y} z_rotation={orientation.z}></ModelViewer>
+                <Data isMetric={isMetric} depth={depth} position={position}/> 
+              </AccordionDetails>
+            </Accordion>
+          </Box>
+          :
+          <div>
+            <br/>
+            <br/>
+            <br/>
+            <h1 style={{textAlign: "Center"}}> There is no active API Connection! </h1>
+          </div>
+        }    
       </header>          
     </div>
   )
